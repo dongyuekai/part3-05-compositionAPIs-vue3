@@ -20,7 +20,7 @@
     createApp({
       setup() {
         const count = ref(0)
-        // watchEffect会返回一个stop函数用于停止监听
+        // watchEffect会返回一个stop变量用于停止监听
         const stop = watchEffect(() => {
           console.log(count.value)
         })
