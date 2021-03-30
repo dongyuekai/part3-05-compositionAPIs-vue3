@@ -9,12 +9,12 @@
 
 <body>
   <div id='app'>
-    x:{{position.x}}<br />
-    y:{{position.y}}
+    x:{{x}}<br />
+    y:{{y}}
   </div>
   <script type='module'>
     import { createApp, reactive, onMounted, onUnmounted, toRefs } from './node_modules/vue/dist/vue.esm-browser.js'
-    
+
     function useMousePosition() {
       // 第一个参数 props
       // 第二个参数 context,attrs,emit,slots
@@ -35,20 +35,21 @@
       onUnmounted(() => {
         window.removeEventListener('mousemove', update)
       })
-      return position
+      // toRefs是把对象内部的所有属性都转化为响应式对象
+      return toRefs(position)
     }
 
     const app = createApp({
       setup() {
-        const position = useMousePosition()
+        const { x, y } = useMousePosition()
         return {
-          position
+          x, y
         }
       },
     })
 
     app.mount("#app")
-    
+
   </script>
 </body>
 
