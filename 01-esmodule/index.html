@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">Hello World</div>
+  <script>
+    // DOMContentLoaded事件触发时机为DOM加载完成后
+    window.addEventListener('DOMContentLoaded', () => {
+      console.log('DOMContentLoaded')
+    })
+  </script>
+  // type=’module‘ 表示加载模块（IE不支持） 并且是延迟触发 等于 添加defer属性
+  <script type="module" src="./modules/index.js"></script>
+</body>
+
+</html>
