@@ -4,6 +4,7 @@ const convert = target => isObject(target) ? reactive(target) : target
 const hasOwnProperty = Object.prototype.hasOwnProperty
 const hasOwn = (target, key) => hasOwnProperty.call(target, key)
 
+// 把对象转成响应式对象 （这里依赖 proxy 设置get set 等属性 在get中收集依赖 在set和其他的操作中去触发依赖更新）
 export function reactive(target) {
   if (!isObject(target)) return target
 
@@ -71,4 +72,31 @@ export function trigger(target, key) {
       effect()
     });
   }
+}
+
+// ref
+export function ref(raw) {
+
+  // 判断raw是否是ref创建的对象 如果是的话直接返回
+  if (isObject(raw) && raw.__v_isRef) {
+    return
+  }
+
+  let value = convert(raw)
+  const r = {
+    __v_isRef: true,
+    get value() {
+      // 收集依赖
+      track(r, 'value')
+      return value
+    },
+    set value(newValue) {
+      if (newValue !== value) {
+        raw = newValue
+        value = convert(raw)
+        trigger(r, 'value')
+      }
+    }
+  }
+  return r
 }

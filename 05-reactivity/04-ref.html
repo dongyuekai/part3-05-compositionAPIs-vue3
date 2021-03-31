@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+<body>
+  <script type='module'>
+    // import { reactive, effect } from './node_modules/@vue/reactivity/dist/reactivity.esm-browser.js'
+    import { reactive, effect, ref } from './reactivity/index.js'
+
+    const price = ref(5000)
+    const count = ref(3)
+    let total = 0
+
+    // effect 和 watchEffect一样监听对象变化 watchEffect内部就是实现了effect
+    effect(() => {
+      total = price.value * count.value
+    })
+
+    console.log(total)
+    price.value = 1000
+    console.log(total)
+    count.value = 2
+    console.log(total)
+
+  </script>
+</body>
+
+</html>
