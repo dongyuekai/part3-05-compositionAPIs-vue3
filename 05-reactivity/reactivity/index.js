@@ -100,3 +100,32 @@ export function ref(raw) {
   }
   return r
 }
+
+// toRefs 参数proxy是响应式对象
+export function toRefs(proxy) {
+  const ret = proxy instanceof Array ? new Array(proxy.length) : {}
+  for (const key in proxy) {
+    ret[key] = toProxyRef(proxy, key)
+  }
+  return ret
+}
+function toProxyRef(proxy, key) {
+  const r = {
+    __v_isRef: true,
+    get value() {
+      return proxy[key]
+    },
+    set value(newValue) {
+      proxy[key] = newValue
+    }
+  }
+  return r
+}
+
+// computed 返回值是ref对象 调用的时候需要调用value属性
+export function computed(getter) {
+  // 这里因为ref没有传参数 所以 result 返回undefined
+  const result = ref()
+  effect(() => (result.value = getter()))
+  return result
+}
